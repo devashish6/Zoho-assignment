@@ -15,10 +15,10 @@ import com.example.zoho.screens.SearchScreen
 fun NavigationGraph(navController: NavHostController) {
     NavHost(navController, startDestination = TITLE_FEED) {
         composable(TITLE_FEED) {
-            FeedsScreen()
+            FeedsScreen(navController)
         }
         composable(TITLE_SEARCH) {
-            SearchScreen()
+            SearchScreen(navController)
         }
         composable(TITLE_NOTIFICATIONS) {
         }

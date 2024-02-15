@@ -6,3 +6,5 @@ const val TITLE_FEED = "Feeds"
 const val TITLE_SEARCH = "Search"
 const val TITLE_NOTIFICATIONS = "Notifications"
 const val TITLE_SETTINGS = "Settings"
+
+const val DEFAULT_SEARCH = "Search for feeds, forums, users, etc...,"

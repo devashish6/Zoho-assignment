@@ -34,6 +34,26 @@ val Typography = Typography(
     )
     */
 )
+//Font families
 val FONT_BOLD = FontFamily(Font(R.font.bold))
 val FONT_MEDIUM = FontFamily(Font(R.font.medium))
 val FONT_REGULAR = FontFamily(Font(R.font.regular))
+
+//TextStyles
+val BOLD_POST = TextStyle(
+    fontFamily = FONT_BOLD,
+    color = POST_TITLE,
+    fontSize = 18.sp
+)
+
+val REGULAR_POST = TextStyle(
+    fontFamily = FONT_REGULAR,
+    color = POST_BODY,
+    fontSize = 16.sp
+)
+
+val USER_TIME_STAMP = TextStyle(
+    fontFamily = FONT_REGULAR,
+    color = GREY,
+    fontSize = 16.sp
+)

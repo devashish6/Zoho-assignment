@@ -19,24 +19,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.zoho.R
 import com.example.zoho.models.Post
 import com.example.zoho.ui.theme.BACKGROUND
-import com.example.zoho.ui.theme.BODY
-import com.example.zoho.ui.theme.FONT_BOLD
-import com.example.zoho.ui.theme.FONT_REGULAR
-import com.example.zoho.ui.theme.NAME
-import com.example.zoho.ui.theme.TITLE
+import com.example.zoho.ui.theme.BOLD_POST
+import com.example.zoho.ui.theme.REGULAR_POST
+import com.example.zoho.ui.theme.USER_TIME_STAMP
 import com.example.zoho.ui.theme.White
 import com.example.zoho.utils.getCurrentTimeInIST
 import com.example.zoho.viewmodels.PostsViewModel
 
 @Composable
-fun FeedsScreen() {
+fun FeedsScreen(navController: NavHostController) {
     val postsViewModel = hiltViewModel<PostsViewModel>()
     val posts = postsViewModel.posts.collectAsState()
     LazyColumn(modifier = Modifier.background(BACKGROUND), content = {
@@ -52,20 +49,14 @@ fun PostItem(posts: Post) {
         modifier = Modifier
             .fillMaxWidth()
             .background(BACKGROUND)
-            .padding(
-                top = 16.dp,
-                bottom = 16.dp
-            )
+            .padding(top = 16.dp, bottom = 16.dp)
     ) {
         Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(White)
-                .padding(
-                    top = 13.dp,
-                    bottom = 16.dp
-                ),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(top = 13.dp, bottom = 16.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
@@ -77,58 +68,37 @@ fun PostItem(posts: Post) {
 
             Column(
                 modifier = Modifier
-                    .padding(
-                        start = 16.dp,
-                        end = 24.dp
-                    )
+                    .padding(start = 16.dp, end = 24.dp)
                     .weight(1f)
             ) {
-                Text(
+
+                CardComposableText(
                     text = posts.title.toString(),
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontFamily = FONT_BOLD,
-                        color = TITLE
-                    ),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
+                    style = BOLD_POST,
                     modifier = Modifier.height(50.dp)
                 )
 
-                Text(
+                CardComposableText(
                     text = posts.body.toString(),
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontFamily = FONT_REGULAR,
-                        color = BODY
-                    ),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
+                    style = REGULAR_POST,
                     modifier = Modifier
                         .height(50.dp)
                         .padding(top = 6.dp)
                 )
 
-                Row (
+                Row(
                     modifier = Modifier.padding(top = 12.dp)
                 ) {
-                    Text(
+                    CardComposableText(
                         text = "Devashish",
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontFamily = FONT_REGULAR,
-                            color = NAME
-                        ),
+                        style = USER_TIME_STAMP,
                         modifier = Modifier.padding(end = 16.dp)
                     )
 
-                    Text(
+                    CardComposableText(
                         text = getCurrentTimeInIST(),
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontFamily = FONT_REGULAR,
-                            color = NAME
-                        ),
+                        style = USER_TIME_STAMP,
+                        modifier = Modifier.padding(end = 16.dp)
                     )
                 }
             }
@@ -138,30 +108,15 @@ fun PostItem(posts: Post) {
                     .padding(end = 40.dp)
             ) {
                 Column {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_like),
-                        contentDescription = null,
-
-                    )
-
-                    Text(text = "10",
-                        modifier = Modifier.padding( start = 4.dp,
-                            top = 8.dp,
-                            end = 4.dp)
-                    )
+                    ActionWithCount(R.drawable.ic_like, "10")
                 }
                 Column (
-                    modifier = Modifier.padding(top = 24.dp)
-                ){
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_comment),
-                        contentDescription = null,
+                    modifier = Modifier.padding(top = 8.dp)
+                ) {
+                    ActionWithCount(
+                        drawableID = R.drawable.ic_comment,
+                        count = "02"
                     )
-
-                    Text(text = "02",
-                        modifier = Modifier.padding( start = 4.dp,
-                            top = 8.dp,
-                            end = 4.dp))
                 }
             }
         }
@@ -169,7 +124,26 @@ fun PostItem(posts: Post) {
 }
 
 @Composable
-@Preview
-fun Previewscreen() {
-    PostItem(posts = Post(1, 2, "Hello", "World"))
+fun ActionWithCount(drawableID: Int, count: String) {
+    Image(
+        painter = painterResource(id = drawableID),
+        contentDescription = null,
+    )
+
+    Text(
+        text = count,
+        modifier = Modifier.padding(start = 4.dp, top = 8.dp, end = 4.dp)
+    )
+
+}
+
+@Composable
+fun CardComposableText(text: String, style: TextStyle, modifier: Modifier = Modifier) {
+    return Text(
+        text = text,
+        style = style,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis,
+        modifier = modifier
+    )
 }
