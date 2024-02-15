@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Zoho Feed</string>
+    <string name="title_activity_feeds">FeedsActivity</string>
 </resources>
