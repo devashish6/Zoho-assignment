@@ -53,6 +53,7 @@ android {
 
 dependencies {
     val navigationVersion = "2.7.7"
+    val roomversion = "2.6.1"
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
@@ -74,6 +75,15 @@ dependencies {
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+
+    implementation("androidx.room:room-runtime:$roomversion")
+    annotationProcessor("androidx.room:room-compiler:$roomversion")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$roomversion")
+    implementation("androidx.room:room-ktx:$roomversion")
+
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

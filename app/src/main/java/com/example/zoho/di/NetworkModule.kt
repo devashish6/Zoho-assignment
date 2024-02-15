@@ -1,10 +1,14 @@
 package com.example.zoho.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.zoho.BASE_URL
 import com.example.zoho.retrofit.ApiService
+import com.example.zoho.room.PostsDataBase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -26,5 +30,13 @@ class NetworkModule {
     @Provides
     fun apiService(retrofit: Retrofit) : ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
+    fun dataBase(@ApplicationContext context: Context) : PostsDataBase {
+        return Room.databaseBuilder(context,
+            PostsDataBase::class.java,
+            "Posts")
+            .build()
     }
 }
