@@ -16,17 +16,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.zoho.bottomnavigation.BottomNavigation
 import com.example.zoho.bottomnavigation.NavigationGraph
-import com.example.zoho.screens.FeedsScreen
+import com.example.zoho.ui.theme.FONT_MEDIUM
+import com.example.zoho.ui.theme.FONT_REGULAR
 import com.example.zoho.ui.theme.Toolbar
 import com.example.zoho.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +49,7 @@ class MainActivity : ComponentActivity() {
                 }
             ) { _ ->
                 Column {
-                    TopBar()
+                    TopBar(navController)
                     NavigationGraph(navController = navController)
                 }
             }
@@ -53,37 +58,68 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun TopBar() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = Toolbar)
-            .padding(
-                start = 24.dp,
-                end = 24.dp,
-                top = 24.dp,
-                bottom = 40.dp
-            )
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
+private fun TopBar(navController: NavHostController) {
+    if (navController.currentDestination?.route == TITLE_FEED) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = Toolbar)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_menu),
-                contentDescription = "menu",
-                modifier = Modifier.size(24.dp),
-                colorFilter = ColorFilter.tint(Color.White)
-            )
-            Spacer(modifier = Modifier.width(6.dp))
-            Image(
-                painter = painterResource(id = R.drawable.ic_sort_icon),
-                contentDescription = "sort",
-                colorFilter = ColorFilter.tint(Color.White),
+            Row(
                 modifier = Modifier
-                    .size(24.dp)
-                    .clickable { }
-            )
+                    .padding(
+                        start = 24.dp,
+                        top = 16.dp,
+                        end = 24.dp,
+                        bottom = 16.dp
+                    )
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_menu),
+                    contentDescription = "menu",
+                    colorFilter = ColorFilter.tint(Color.White),
+                    modifier = Modifier.size(24.dp)
+                )
+                Row (
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column {
+                        Text(
+                            text = "Forum",
+                            style = TextStyle(
+                                fontFamily = FONT_MEDIUM,
+                                fontSize = 20.sp,
+                                color = Color.White
+                            ),
+                            modifier = Modifier.padding(start = 24.dp)
+                        )
+                        Row {
+                            Text(
+                                text = "All",
+                                style = TextStyle(
+                                    fontFamily = FONT_REGULAR,
+                                    fontSize = 16.sp,
+                                    color = Color.White
+                                ),
+                                modifier = Modifier.padding(start = 24.dp)
+                            )
+                            Image(painter = painterResource(id = R.drawable.ic_dropdown_arrow), contentDescription = null,
+                                colorFilter = ColorFilter.tint(Color.White))
+                        }
+
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_sort_icon),
+                        contentDescription = "sort",
+                        colorFilter = ColorFilter.tint(Color.White),
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clickable { }
+                    )
+                }
+            }
         }
     }
 }
