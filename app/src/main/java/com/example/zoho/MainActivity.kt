@@ -46,7 +46,6 @@ class MainActivity : ComponentActivity() {
                 Column {
                     TopBar()
                     NavigationGraph(navController = navController)
-                    FeedsScreen()
                 }
             }
         }
