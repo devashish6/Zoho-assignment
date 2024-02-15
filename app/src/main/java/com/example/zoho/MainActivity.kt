@@ -28,6 +28,7 @@ import com.example.zoho.bottomnavigation.BottomNavigation
 import com.example.zoho.bottomnavigation.NavigationGraph
 import com.example.zoho.screens.FeedsScreen
 import com.example.zoho.ui.theme.Toolbar
+import com.example.zoho.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

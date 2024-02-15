@@ -1,4 +1,4 @@
-package com.example.zoho
+package com.example.zoho.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.zoho.R
