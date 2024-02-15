@@ -16,7 +16,7 @@ import com.example.zoho.ui.theme.FONT_MEDIUM
 import com.example.zoho.ui.theme.NAVIGATION_TEXT
 
 @Composable
-fun BottomNavigation(navController: NavController, items: List<BottomNavigationScreens>) {
+fun BottomNavigation(navController: NavController, items: List<BottomNavigationModel>) {
 
     NavigationBar (
         containerColor = Color.White
@@ -40,10 +40,10 @@ fun BottomNavigation(navController: NavController, items: List<BottomNavigationS
                         fontSize = 12.sp
                     )
                 },
-                selected = currentRoute == item.route,
+                selected = currentRoute == item.title,
                 onClick = {
-                    if (currentRoute != item.route) {
-                        navController.navigate(item.route) {
+                    if (currentRoute != item.title) {
+                        navController.navigate(item.title) {
                             popUpTo(navController.graph.startDestinationId)
                             launchSingleTop = true
                         }

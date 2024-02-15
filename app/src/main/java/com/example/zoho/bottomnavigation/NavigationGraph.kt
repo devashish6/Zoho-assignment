@@ -4,21 +4,25 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.zoho.TITLE_FEED
+import com.example.zoho.TITLE_NOTIFICATIONS
+import com.example.zoho.TITLE_SEARCH
+import com.example.zoho.TITLE_SETTINGS
 import com.example.zoho.screens.FeedsScreen
 import com.example.zoho.screens.SearchScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
-    NavHost(navController, startDestination = "feeds") {
-        composable("feeds") {
+    NavHost(navController, startDestination = TITLE_FEED) {
+        composable(TITLE_FEED) {
             FeedsScreen()
         }
-        composable("search") {
+        composable(TITLE_SEARCH) {
             SearchScreen()
         }
-        composable("notifications") {
+        composable(TITLE_NOTIFICATIONS) {
         }
-        composable("settings") {
+        composable(TITLE_SETTINGS) {
         }
     }
 }

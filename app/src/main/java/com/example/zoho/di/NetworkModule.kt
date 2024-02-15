@@ -1,5 +1,6 @@
 package com.example.zoho.di
 
+import com.example.zoho.BASE_URL
 import com.example.zoho.retrofit.ApiService
 import dagger.Module
 import dagger.Provides
@@ -16,7 +17,7 @@ class NetworkModule {
     @Singleton
     @Provides
     fun retrofitClient() : Retrofit {
-        return Retrofit.Builder().baseUrl("https://jsonplaceholder.typicode.com/")
+        return Retrofit.Builder().baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
