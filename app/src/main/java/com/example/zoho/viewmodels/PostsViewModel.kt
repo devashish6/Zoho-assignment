@@ -35,4 +35,10 @@ class PostsViewModel @Inject constructor(private val repository: ApiRepository) 
         }
     }
 
+    fun updateFavourite(id: Int) {
+        viewModelScope.launch {
+            repository.updateFavourite(id)
+        }
+    }
+
 }

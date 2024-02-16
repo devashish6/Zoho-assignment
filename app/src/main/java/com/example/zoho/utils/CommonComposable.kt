@@ -2,6 +2,7 @@ package com.example.zoho.utils
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +13,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,7 +33,7 @@ import com.example.zoho.ui.theme.USER_TIME_STAMP
 import com.example.zoho.ui.theme.White
 
 @Composable
-fun PostItem(posts: Post) {
+fun PostItem(posts: Post, onClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -89,8 +96,28 @@ fun PostItem(posts: Post) {
                 modifier = Modifier
                     .padding(end = 40.dp)
             ) {
-                Column {
-                    ActionWithCount(R.drawable.ic_like, "10")
+                val isFavourite by remember { mutableStateOf(posts.favorite) }
+
+                val colorFilter = if (isFavourite) ColorFilter.tint(Color.Red) else null
+
+                Column (
+                    modifier = Modifier.clickable {
+                        onClick.invoke()
+                    }
+                ) {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_like),
+                        contentDescription = null,
+                        colorFilter = colorFilter,
+                        modifier = Modifier
+                            .clickable { onClick.invoke() }
+                    )
+
+                    Text(
+                        text = "10",
+                        modifier = Modifier.padding(start = 4.dp, top = 8.dp, end = 4.dp)
+                    )
                 }
                 Column(
                     modifier = Modifier.padding(top = 8.dp)
@@ -106,17 +133,22 @@ fun PostItem(posts: Post) {
 }
 
 @Composable
-fun ActionWithCount(drawableID: Int, count: String) {
+fun ActionWithCount(drawableID: Int, count: String, favourite : Boolean = false, onClick: () -> Unit = {}) {
+    var isFavourite by remember { mutableStateOf(favourite) }
+
+    val colorFilter = if (isFavourite) ColorFilter.tint(Color.Red) else null
     Image(
         painter = painterResource(id = drawableID),
         contentDescription = null,
+        colorFilter = colorFilter,
+        modifier = Modifier
+            .clickable { onClick.invoke() }
     )
 
     Text(
         text = count,
         modifier = Modifier.padding(start = 4.dp, top = 8.dp, end = 4.dp)
     )
-
 }
 
 @Composable

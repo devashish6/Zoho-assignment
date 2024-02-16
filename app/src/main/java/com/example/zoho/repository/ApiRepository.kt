@@ -3,8 +3,10 @@ package com.example.zoho.repository
 import com.example.zoho.models.Post
 import com.example.zoho.retrofit.ApiService
 import com.example.zoho.room.PostsDataBase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ApiRepository @Inject constructor(private val apiService: ApiService,
@@ -37,6 +39,12 @@ class ApiRepository @Inject constructor(private val apiService: ApiService,
         } else {
             val filteredResult = postsDataBase.postsDao().getPost(key)
             _filteredPosts.emit(filteredResult)
+        }
+    }
+
+    suspend fun updateFavourite(postID: Int) {
+        withContext(Dispatchers.IO) {
+            postsDataBase.postsDao().updateFavourite(postID)
         }
     }
 }

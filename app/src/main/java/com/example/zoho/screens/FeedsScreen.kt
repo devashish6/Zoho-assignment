@@ -39,16 +39,16 @@ fun FeedsScreen() {
     val postsViewModel = hiltViewModel<PostsViewModel>()
     postsViewModel.fetchAllPosts()
     val posts = postsViewModel.posts.collectAsState()
-    Scaffold (
-
-    ) {_->
+    Scaffold { _->
         Column {
             TopBar(onSort = {
                 postsViewModel.sortPosts()
             })
             LazyColumn(modifier = Modifier.background(BACKGROUND), content = {
                 items(posts.value) {
-                    PostItem(it)
+                    PostItem(it) {
+                        postsViewModel.updateFavourite(it.id!!)
+                    }
                 }
             })
         }

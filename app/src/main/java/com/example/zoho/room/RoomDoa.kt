@@ -18,4 +18,6 @@ interface RoomDoa {
     @Query("SELECT * FROM Posts WHERE title LIKE '%' || :key || '%' OR body LIKE '%' || :key || '%'")
     suspend fun getPost(key: String) : List<Post>
 
+    @Query("UPDATE Posts SET favorite = CASE WHEN favorite = 0 THEN 1 ELSE 0 END WHERE id = :postID")
+    fun updateFavourite(postID: Int)
 }

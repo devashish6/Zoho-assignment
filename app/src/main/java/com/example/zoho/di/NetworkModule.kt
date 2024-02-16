@@ -37,6 +37,7 @@ class NetworkModule {
         return Room.databaseBuilder(context,
             PostsDataBase::class.java,
             "Posts")
+            .fallbackToDestructiveMigration()
             .build()
     }
 }
