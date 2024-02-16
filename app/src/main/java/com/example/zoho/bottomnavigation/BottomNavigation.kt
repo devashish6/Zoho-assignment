@@ -13,7 +13,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.zoho.ui.theme.FONT_MEDIUM
-import com.example.zoho.ui.theme.NAVIGATION_TEXT
+import com.example.zoho.ui.theme.SELECTED_ICON
+import com.example.zoho.ui.theme.UNSELECTED_ICON
 
 @Composable
 fun BottomNavigation(navController: NavController, items: List<BottomNavigationModel>) {
@@ -28,14 +29,24 @@ fun BottomNavigation(navController: NavController, items: List<BottomNavigationM
                 icon =
                 {
                     Icon(painterResource(id = item.selectedIcon),
-                        contentDescription = item.title)
+                        contentDescription = item.title,
+                        tint = if (currentRoute == item.title) {
+                            SELECTED_ICON
+                        } else {
+                            UNSELECTED_ICON
+                        })
+
                 },
                 label = {
                     Text(
                         text = item.title,
                         style = TextStyle(
                             fontFamily = FONT_MEDIUM,
-                            color = NAVIGATION_TEXT
+                            color = if (currentRoute == item.title) {
+                                SELECTED_ICON
+                            } else {
+                                UNSELECTED_ICON
+                            }
                         ),
                         fontSize = 12.sp
                     )

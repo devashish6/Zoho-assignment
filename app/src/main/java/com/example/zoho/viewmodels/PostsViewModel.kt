@@ -24,6 +24,10 @@ class PostsViewModel @Inject constructor(private val repository: ApiRepository) 
         }
     }
 
+    fun sortPosts() {
+        posts.value.toMutableList().sortedByDescending { it.title }
+    }
+
 
     fun searchPosts(key: String) {
         viewModelScope.launch {

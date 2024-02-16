@@ -39,18 +39,23 @@ fun FeedsScreen() {
     val postsViewModel = hiltViewModel<PostsViewModel>()
     postsViewModel.fetchAllPosts()
     val posts = postsViewModel.posts.collectAsState()
-    Scaffold {_->
+    Scaffold (
+
+    ) {_->
         Column {
-            TopBar()
+            TopBar(onSort = {
+                postsViewModel.sortPosts()
+            })
             LazyColumn(modifier = Modifier.background(BACKGROUND), content = {
                 items(posts.value) {
                     PostItem(it)
                 }
-            })        }
+            })
+        }
     }
 }
 @Composable
-private fun TopBar() {
+private fun TopBar(onSort: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -110,7 +115,9 @@ private fun TopBar() {
                     colorFilter = ColorFilter.tint(Color.White),
                     modifier = Modifier
                         .size(20.dp)
-                        .clickable { }
+                        .clickable {
+                            onSort.invoke()
+                        }
                 )
             }
         }
