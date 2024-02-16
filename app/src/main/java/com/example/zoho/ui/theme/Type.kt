@@ -57,3 +57,9 @@ val USER_TIME_STAMP = TextStyle(
     color = GREY,
     fontSize = 16.sp
 )
+
+val SEARCH_BAR_TEXT = TextStyle(
+    fontFamily = FONT_REGULAR,
+    fontSize = 16.sp,
+    color = SEARCH_TEXT
+)

@@ -26,7 +26,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.zoho.bottomnavigation.BottomNavigation
 import com.example.zoho.bottomnavigation.NavigationGraph
@@ -49,75 +48,7 @@ class MainActivity : ComponentActivity() {
                 }
             ) { _ ->
                 Column {
-                    TopBar(navController)
                     NavigationGraph(navController = navController)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun TopBar(navController: NavHostController) {
-    if (navController.currentDestination?.route == TITLE_FEED) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = Toolbar)
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(
-                        start = 24.dp,
-                        top = 16.dp,
-                        end = 24.dp,
-                        bottom = 16.dp
-                    )
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_menu),
-                    contentDescription = "menu",
-                    colorFilter = ColorFilter.tint(Color.White),
-                    modifier = Modifier.size(24.dp)
-                )
-                Row (
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column {
-                        Text(
-                            text = "Forum",
-                            style = TextStyle(
-                                fontFamily = FONT_MEDIUM,
-                                fontSize = 20.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(start = 24.dp)
-                        )
-                        Row {
-                            Text(
-                                text = "All",
-                                style = TextStyle(
-                                    fontFamily = FONT_REGULAR,
-                                    fontSize = 16.sp,
-                                    color = Color.White
-                                ),
-                                modifier = Modifier.padding(start = 24.dp)
-                            )
-                            Image(painter = painterResource(id = R.drawable.ic_dropdown_arrow), contentDescription = null,
-                                colorFilter = ColorFilter.tint(Color.White))
-                        }
-
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_sort_icon),
-                        contentDescription = "sort",
-                        colorFilter = ColorFilter.tint(Color.White),
-                        modifier = Modifier
-                            .size(20.dp)
-                            .clickable { }
-                    )
                 }
             }
         }

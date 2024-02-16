@@ -15,7 +15,7 @@ interface RoomDoa {
     @Query("SELECT * from Posts")
     suspend fun getAllPosts() : List<Post>
 
-    @Query("SELECT * FROM Posts WHERE title LIKE :key OR body LIKE :key")
+    @Query("SELECT * FROM Posts WHERE title LIKE '%' || :key || '%' OR body LIKE '%' || :key || '%'")
     suspend fun getPost(key: String) : List<Post>
 
 }

@@ -15,9 +15,20 @@ class PostsViewModel @Inject constructor(private val repository: ApiRepository) 
     val posts : StateFlow<List<Post>>
         get() = repository.post
 
-    init {
+    val filteredPosts : StateFlow<List<Post>>
+        get() = repository.filteredPosts
+
+    fun fetchAllPosts() {
         viewModelScope.launch {
             repository.getPosts()
         }
     }
+
+
+    fun searchPosts(key: String) {
+        viewModelScope.launch {
+            repository.searchPostWithKey(key)
+        }
+    }
+
 }

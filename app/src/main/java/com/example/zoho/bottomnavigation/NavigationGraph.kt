@@ -1,5 +1,7 @@
 package com.example.zoho.bottomnavigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -13,12 +15,18 @@ import com.example.zoho.screens.SearchScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
-    NavHost(navController, startDestination = TITLE_FEED) {
+    NavHost(navController, startDestination = TITLE_FEED,
+        enterTransition = {
+            EnterTransition.None
+        },
+        exitTransition = {
+            ExitTransition.None
+        }) {
         composable(TITLE_FEED) {
-            FeedsScreen(navController)
+            FeedsScreen()
         }
         composable(TITLE_SEARCH) {
-            SearchScreen(navController)
+            SearchScreen()
         }
         composable(TITLE_NOTIFICATIONS) {
         }

@@ -11,8 +11,12 @@ class ApiRepository @Inject constructor(private val apiService: ApiService,
                                         private val postsDataBase: PostsDataBase) {
 
     private val _posts = MutableStateFlow<List<Post>>(emptyList())
+    private val _filteredPosts = MutableStateFlow<List<Post>>(emptyList())
     val post: StateFlow<List<Post>>
         get() = _posts
+
+    val filteredPosts: StateFlow<List<Post>>
+        get() = _filteredPosts
     suspend fun getPosts() {
         val offLineResponse = postsDataBase.postsDao().getAllPosts()
 
@@ -24,6 +28,15 @@ class ApiRepository @Inject constructor(private val apiService: ApiService,
                 postsDataBase.postsDao().addPosts(response.body()!!)
                 _posts.emit(response.body()!!)
             }
+        }
+    }
+
+    suspend fun searchPostWithKey(key: String) {
+        if (key.isEmpty()) {
+            _filteredPosts.emit(emptyList())
+        } else {
+            val filteredResult = postsDataBase.postsDao().getPost(key)
+            _filteredPosts.emit(filteredResult)
         }
     }
 }
