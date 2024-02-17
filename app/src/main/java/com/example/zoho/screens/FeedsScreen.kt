@@ -14,11 +14,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -30,6 +35,7 @@ import com.example.zoho.R
 import com.example.zoho.ui.theme.BACKGROUND
 import com.example.zoho.ui.theme.FONT_MEDIUM
 import com.example.zoho.ui.theme.FONT_REGULAR
+import com.example.zoho.ui.theme.SELECTED_ICON
 import com.example.zoho.ui.theme.Toolbar
 import com.example.zoho.utils.PostItem
 import com.example.zoho.viewmodels.PostsViewModel
@@ -39,10 +45,21 @@ fun FeedsScreen() {
     val postsViewModel = hiltViewModel<PostsViewModel>()
     postsViewModel.fetchAllPosts()
     val posts = postsViewModel.posts.collectAsState()
-    Scaffold { _->
+    Scaffold (
+        floatingActionButton = {
+            FloatingActionButton(onClick = { /*TODO*/ },
+                containerColor = SELECTED_ICON,
+                modifier = Modifier.padding(16.dp)
+                    .clip(CircleShape)) {
+                Icon(painter = painterResource(id = R.drawable.ic_plus), contentDescription = null, tint = Color.White)
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End,
+        modifier = Modifier.padding(bottom = 80.dp)
+    ) { _->
         Column {
             TopBar(onSort = {
-                postsViewModel.sortPosts()
+                postsViewModel.sortInAsc()
             })
             LazyColumn(modifier = Modifier.background(BACKGROUND), content = {
                 items(posts.value) {

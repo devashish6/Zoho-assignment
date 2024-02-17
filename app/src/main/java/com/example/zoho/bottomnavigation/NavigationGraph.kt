@@ -11,6 +11,7 @@ import com.example.zoho.TITLE_NOTIFICATIONS
 import com.example.zoho.TITLE_SEARCH
 import com.example.zoho.TITLE_SETTINGS
 import com.example.zoho.screens.FeedsScreen
+import com.example.zoho.screens.NotificationScreen
 import com.example.zoho.screens.SearchScreen
 
 @Composable
@@ -29,6 +30,7 @@ fun NavigationGraph(navController: NavHostController) {
             SearchScreen()
         }
         composable(TITLE_NOTIFICATIONS) {
+            NotificationScreen()
         }
         composable(TITLE_SETTINGS) {
         }

@@ -47,4 +47,11 @@ class ApiRepository @Inject constructor(private val apiService: ApiService,
             postsDataBase.postsDao().updateFavourite(postID)
         }
     }
+
+    suspend fun sortInAscendingOrder() {
+        withContext(Dispatchers.IO) {
+            val offLineResponse = postsDataBase.postsDao().sortByAsc()
+            _posts.emit(offLineResponse)
+        }
+    }
 }

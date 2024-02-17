@@ -24,10 +24,11 @@ class PostsViewModel @Inject constructor(private val repository: ApiRepository) 
         }
     }
 
-    fun sortPosts() {
-        posts.value.toMutableList().sortedByDescending { it.title }
+    fun sortInAsc() {
+        viewModelScope.launch {
+            repository.sortInAscendingOrder()
+        }
     }
-
 
     fun searchPosts(key: String) {
         viewModelScope.launch {

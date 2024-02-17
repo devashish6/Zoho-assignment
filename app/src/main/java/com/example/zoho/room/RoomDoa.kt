@@ -20,4 +20,6 @@ interface RoomDoa {
 
     @Query("UPDATE Posts SET favorite = CASE WHEN favorite = 0 THEN 1 ELSE 0 END WHERE id = :postID")
     fun updateFavourite(postID: Int)
+    @Query("SELECT * FROM Posts ORDER BY title ASC")
+    fun sortByAsc() : List<Post>
 }
