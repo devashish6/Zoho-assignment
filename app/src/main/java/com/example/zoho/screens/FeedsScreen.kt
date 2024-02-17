@@ -22,8 +22,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -58,9 +63,14 @@ fun FeedsScreen() {
         modifier = Modifier.padding(bottom = 80.dp)
     ) { _->
         Column {
-            TopBar(onSort = {
+            TopBar(
+                ascendingOrder = {
                 postsViewModel.sortInAsc()
-            })
+            },
+                descendingOrder = {
+                    postsViewModel.sortInDesc()
+                }
+            )
             LazyColumn(modifier = Modifier.background(BACKGROUND), content = {
                 items(posts.value) {
                     PostItem(it) {
@@ -72,7 +82,9 @@ fun FeedsScreen() {
     }
 }
 @Composable
-private fun TopBar(onSort: () -> Unit) {
+private fun TopBar(ascendingOrder: () -> Unit, descendingOrder: () -> Unit) {
+    var isAscending by remember { mutableStateOf(true) }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,8 +145,10 @@ private fun TopBar(onSort: () -> Unit) {
                     modifier = Modifier
                         .size(20.dp)
                         .clickable {
-                            onSort.invoke()
+                            if (isAscending) ascendingOrder.invoke() else descendingOrder.invoke()
+                            isAscending = !isAscending
                         }
+                        .rotate(if (isAscending) 0f else 180f)
                 )
             }
         }

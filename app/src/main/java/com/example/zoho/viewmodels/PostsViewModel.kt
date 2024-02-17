@@ -30,6 +30,12 @@ class PostsViewModel @Inject constructor(private val repository: ApiRepository) 
         }
     }
 
+    fun sortInDesc() {
+        viewModelScope.launch {
+            repository.sortInDescendingOrder()
+        }
+    }
+
     fun searchPosts(key: String) {
         viewModelScope.launch {
             repository.searchPostWithKey(key)

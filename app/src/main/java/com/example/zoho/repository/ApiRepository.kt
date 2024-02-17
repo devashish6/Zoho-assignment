@@ -54,4 +54,11 @@ class ApiRepository @Inject constructor(private val apiService: ApiService,
             _posts.emit(offLineResponse)
         }
     }
+
+    suspend fun sortInDescendingOrder() {
+        withContext(Dispatchers.IO) {
+            val offLineResponse = postsDataBase.postsDao().sortByDesc()
+            _posts.emit(offLineResponse)
+        }
+    }
 }

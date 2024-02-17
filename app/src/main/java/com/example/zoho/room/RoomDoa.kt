@@ -22,4 +22,7 @@ interface RoomDoa {
     fun updateFavourite(postID: Int)
     @Query("SELECT * FROM Posts ORDER BY title ASC")
     fun sortByAsc() : List<Post>
+
+    @Query("SELECT * FROM Posts ORDER BY title DESC")
+    fun sortByDesc() : List<Post>
 }
