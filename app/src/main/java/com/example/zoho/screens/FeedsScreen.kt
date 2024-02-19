@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -20,8 +21,11 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -44,6 +49,7 @@ import com.example.zoho.ui.theme.FONT_REGULAR
 import com.example.zoho.ui.theme.SELECTED_ICON
 import com.example.zoho.ui.theme.Toolbar
 import com.example.zoho.utils.PostItem
+import com.example.zoho.utils.isNetworkOnline
 import com.example.zoho.viewmodels.PostsViewModel
 
 @Composable
@@ -51,50 +57,45 @@ fun FeedsScreen() {
     val postsViewModel = hiltViewModel<PostsViewModel>()
     postsViewModel.fetchAllPosts()
     val posts = postsViewModel.posts.collectAsState()
-    if (posts.value.isEmpty()) {
-        Snackbar {
-            Text("Sorry, couldn't retrieve data from server. Please try again later.")
-        }
-    } else {
-        Scaffold(
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = { /*TODO*/ },
-                    containerColor = SELECTED_ICON,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .clip(CircleShape)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_plus),
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-            },
-            floatingActionButtonPosition = FabPosition.End,
-            modifier = Modifier.padding(bottom = 80.dp)
-        ) { _ ->
-            Column {
-                TopBar(
-                    ascendingOrder = {
-                        postsViewModel.sortInAsc()
-                    },
-                    descendingOrder = {
-                        postsViewModel.sortInDesc()
-                    }
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /*TODO*/ },
+                containerColor = SELECTED_ICON,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .clip(CircleShape)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_plus),
+                    contentDescription = null,
+                    tint = Color.White
                 )
-                LazyColumn(modifier = Modifier.background(BACKGROUND), content = {
-                    items(posts.value) {
-                        PostItem(it) {
-                            postsViewModel.updateFavourite(it.id!!)
-                        }
-                    }
-                })
             }
+        },
+        floatingActionButtonPosition = FabPosition.End,
+        modifier = Modifier.padding(bottom = 80.dp)
+    ) { _ ->
+        Column {
+            TopBar(
+                ascendingOrder = {
+                    postsViewModel.sortInAsc()
+                },
+                descendingOrder = {
+                    postsViewModel.sortInDesc()
+                }
+            )
+            LazyColumn(modifier = Modifier.background(BACKGROUND), content = {
+                items(posts.value) {
+                    PostItem(it) {
+                        postsViewModel.updateFavourite(it.id!!)
+                    }
+                }
+            })
         }
     }
 }
+
 @Composable
 private fun TopBar(ascendingOrder: () -> Unit, descendingOrder: () -> Unit) {
     var isAscending by remember { mutableStateOf(true) }
