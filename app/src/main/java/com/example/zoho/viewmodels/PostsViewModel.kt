@@ -20,7 +20,11 @@ class PostsViewModel @Inject constructor(private val repository: ApiRepository) 
 
     fun fetchAllPosts() {
         viewModelScope.launch {
-            repository.getPosts()
+            try {
+                repository.getPosts()
+            } catch (e: Exception) {
+                e.stackTrace
+            }
         }
     }
 

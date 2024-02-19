@@ -19,6 +19,7 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -50,34 +51,47 @@ fun FeedsScreen() {
     val postsViewModel = hiltViewModel<PostsViewModel>()
     postsViewModel.fetchAllPosts()
     val posts = postsViewModel.posts.collectAsState()
-    Scaffold (
-        floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ },
-                containerColor = SELECTED_ICON,
-                modifier = Modifier.padding(16.dp)
-                    .clip(CircleShape)) {
-                Icon(painter = painterResource(id = R.drawable.ic_plus), contentDescription = null, tint = Color.White)
-            }
-        },
-        floatingActionButtonPosition = FabPosition.End,
-        modifier = Modifier.padding(bottom = 80.dp)
-    ) { _->
-        Column {
-            TopBar(
-                ascendingOrder = {
-                postsViewModel.sortInAsc()
+    if (posts.value.isEmpty()) {
+        Snackbar {
+            Text("Sorry, couldn't retrieve data from server. Please try again later.")
+        }
+    } else {
+        Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = { /*TODO*/ },
+                    containerColor = SELECTED_ICON,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .clip(CircleShape)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_plus),
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
             },
-                descendingOrder = {
-                    postsViewModel.sortInDesc()
-                }
-            )
-            LazyColumn(modifier = Modifier.background(BACKGROUND), content = {
-                items(posts.value) {
-                    PostItem(it) {
-                        postsViewModel.updateFavourite(it.id!!)
+            floatingActionButtonPosition = FabPosition.End,
+            modifier = Modifier.padding(bottom = 80.dp)
+        ) { _ ->
+            Column {
+                TopBar(
+                    ascendingOrder = {
+                        postsViewModel.sortInAsc()
+                    },
+                    descendingOrder = {
+                        postsViewModel.sortInDesc()
                     }
-                }
-            })
+                )
+                LazyColumn(modifier = Modifier.background(BACKGROUND), content = {
+                    items(posts.value) {
+                        PostItem(it) {
+                            postsViewModel.updateFavourite(it.id!!)
+                        }
+                    }
+                })
+            }
         }
     }
 }
